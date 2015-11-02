@@ -54,9 +54,15 @@ public class MapperServlet {
 		}
 	}
 	
+	public static int getPort() {
+	    return mapperServletInstance.server.port;
+	}
+
 	@Retention(RetentionPolicy.RUNTIME)
 	@Target(ElementType.TYPE)
 	public @interface TestServlet {
+	    int ANY_FREE_PORT = -1;
+
 		int port() default 80;
 
 		String contentType() default "application/json";
