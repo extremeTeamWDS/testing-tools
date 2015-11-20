@@ -12,6 +12,7 @@ import java.net.URL;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 
+import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.Platform;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxProfile;
@@ -97,7 +98,7 @@ public class WebDriverManager {
 
     public static String getExternalAddress() {
         if (externalAddress == null) {
-            externalAddress = IP_ADDRESS_LOOKUP_URL != null ? doHttpGet(IP_ADDRESS_LOOKUP_URL) : "127.0.0.1";
+            externalAddress = IP_ADDRESS_LOOKUP_URL != null ? StringUtils.trim(doHttpGet(IP_ADDRESS_LOOKUP_URL)) : "127.0.0.1";
         }
         return externalAddress;
     }
