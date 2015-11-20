@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+ul.outputList {
+    color: green;
+}
+.rects {
+    position: relative;
+    display: inline-block;
+    height: 210px;
+    width: 225px;
+    border: 1px solid black;
+    font: 12px sans-serif;
+}
+.rects > * {
+    position: absolute;
+    border: 1px solid silver;
+    width: 60px;
+    height: 60px;
+    text-align: center;
+    line-height: 60px;
+}
+[data-highlighted='true'] {
+    border: 1px solid red;
+}
+</style>
+</head>
+<body>
+<h1>Web Driver Utilities Test</h1>
+<div>
+    <h2>Test XPath</h2>
+    <div class="xpath-test">
+        <div class="abc1 abc2 abc3">
+            An element with a class 'abc1 abc2 abc3'. html::hasClass() should be able to find any of this class
+        </div>
+        <div class="abc11 abc22 abc33">
+            An element with class 'abc11 abc22 abc33', Nothing should be found when searching for 'abc1', 'abc2', 'abc3' using html::hasClass()
+        </div>
+    </div>
+
+    <hr/>
+    <h2>Test Attributes</h2>
+    <div>
+        <div id="attributeChangeTarget">Attribute Change Target</div>
+        <div>
+            <label for="attributeNameInput">Attribute Name:</label>
+            <input id="attributeNameInput" value="data-highlighted"/>
+        </div>
+        <div>
+            <label for="attributeValueInput">Attribute Value:</label>
+            <input id="attributeValueInput" value="true"/>
+        </div>
+        <button id="setAttributeButton">Set Attribute</button>
+    </div>
+
+    <hr/>
+    <h2>Test conditions</h2>
+    <div>
+        <label for="browserSelectBox">Browser</label>
+        <select id="browserSelectBox">
+            <option value=""></option>
+            <option value="firefox">Firefox</option>
+            <option value="chrome">Chrome</option>
+        </select>
+    </div>
+    <div>
+        <label for="versionInput">Version</label>
+        <input id="versionInput" type="text">
+    </div>
+    <div>
+        <button id="runButton">Run</button>
+        <button id="resetButton">Reset</button>
+    </div>
+    <ul id="outputList">
+    </ul>
+
+    <hr/>
+    <h2>Test popup</h2>
+    <button id="openNewWindowButton">Open new window</button>
+
+    <hr/>
+    <h2>Test overlapping</h2>
+    <div class="rects no-overlap">
+        <div class="rect11" style="top: 10px; left: 10px;">Rect 11</div>
+        <div class="rect12" style="top: 10px; left: 80px;">Rect 12</div>
+        <div class="rect13" style="top: 10px; left: 150px;">Rect 13</div>
+        <div class="rect21" style="top: 75px; left: 10px;">Rect 21</div>
+        <div class="rect22" style="top: 75px; left: 80px;">Rect 22</div>
+        <div class="rect23" style="top: 75px; left: 150px;">Rect 23</div>
+        <div class="rect31" style="top: 140px; left: 10px;">Rect 31</div>
+        <div class="rect32" style="top: 140px; left: 80px;">Rect 32</div>
+        <div class="rect33" style="top: 140px; left: 150px;">Rect 33</div>
+    </div>
+    <div class="rects overlap">
+        <div class="rect11" style="top: 20px; left: 25px;">Rect 11</div>
+        <div class="rect12" style="top: 10px; left: 80px;">Rect 12</div>
+        <div class="rect13" style="top: 20px; left: 135px;">Rect 13</div>
+        <div class="rect22" style="top: 75px; left: 80px;">Rect 22</div>
+        <div class="rect31" style="top: 130px; left: 25px;">Rect 31</div>
+        <div class="rect23" style="top: 75px; left: 150px;">Rect 23</div>
+        <div class="rect32" style="top: 140px; left: 80px;">Rect 32</div>
+        <div class="rect21" style="top: 75px; left: 10px;">Rect 21</div>
+        <div class="rect33" style="top: 130px; left: 135px;">Rect 33</div>
+    </div>
+</div>
+<script type="text/javascript">
+(function(win, doc) {
+    'use strict';
+    
+    var attributeChangeTarget = doc.getElementById('attributeChangeTarget');
+    var attributeNameInput = doc.getElementById('attributeNameInput');
+    var attributeValueInput = doc.getElementById('attributeValueInput');
+    var setAttributeButton = doc.getElementById('setAttributeButton');
+    setAttributeButton.onclick = function() {
+        var name = attributeNameInput.value;
+        var value = attributeValueInput.value;
+        console.log('setting attribute ' + name + ' to ' + value);
+        attributeChangeTarget.setAttribute(name, value);
+    };
+    
+    var openNewWindowButton = doc.getElementById('openNewWindowButton');
+    var newWindow = null;
+    openNewWindowButton.onclick = function() {
+        if (newWindow != null) {
+            newWindow.close();
+        }
+        newWindow = win.open("/test", "", "width=300, height=200")
+    };
+    win.onbeforeunload = function() {
+        if (newWindow != null) {
+            newWindow.close();
+        }
+    };
+
+    var browserSelectBox = doc.getElementById('browserSelectBox');
+    var versionInput = doc.getElementById('versionInput');
+    var runButton = doc.getElementById('runButton')
+    var resetButton = doc.getElementById('resetButton');
+    var outputList = doc.getElementById('outputList');
+    function onBrowserChanged() {
+        if (browserSelectBox.value === "") {
+            runButton.setAttribute("disabled", "");
+        } else {
+            runButton.removeAttribute("disabled");
+        }
+    }
+    browserSelectBox.onchange = onBrowserChanged;
+    onBrowserChanged();
+    runButton.onclick = function() {
+        console.log('Browser: ' + browserSelectBox.value + ' version ' + versionInput.value);
+        var li = document.createElement("li"); 
+        var message = "Your tests passed successfully on " + browserSelectBox.value + " v." + versionInput.value;
+        li.appendChild(doc.createTextNode(message)); 
+        outputList.appendChild(li);
+    };
+
+    resetButton.onclick = function() {
+        versionInput.value = '';
+        browserSelectBox.value = '';
+    };
+
+})(window, document);
+</script>
+</body>
+</html>
