@@ -25,7 +25,7 @@ public class ContentTypeTest extends BaseMapperServletTest {
 	@Test
 	public void shouldServeOverriddenContentTypeHtml() throws Exception {
 		testServlet("http://localhost:54321/test", 200, "text/html", 
-				"<html>\r<head>\r<title>Test</title>\r</head>\r<body>\r<h1>This is a test html</h1>\r</body>\r</html>");
+				"<html>\r<head>\r<title>Test</title>\r</head>\r<body>\r<!-- test comment -->\r<h1>This is a test html</h1>\r</body>\r</html>");
 	}
 	
 	@Test

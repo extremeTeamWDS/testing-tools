@@ -13,6 +13,6 @@ public class AbstractTestWatcherTest {
     public void testDescription() {
         assertEquals(this.getClass().getName(), watcher.description.getClassName());
         assertEquals("testDescription", watcher.description.getMethodName());
-        assertEquals(this.getClass().getName() + ".testDescription()", watcher.getTestName());
+        assertEquals(this.getClass().getName() + ".testDescription", watcher.getTestName());
     }
 }
