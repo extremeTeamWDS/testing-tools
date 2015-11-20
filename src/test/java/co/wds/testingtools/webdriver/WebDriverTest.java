@@ -104,7 +104,7 @@ public class WebDriverTest extends AbstractWebDriverTest {
     @Before
     public void init() {
         GET("/" + TEST_PAGE_URL);
-        waitFor(Conditions.element(By.tagName("h1")).text().satisfies(Functions.<String>isEqualTo("Web Driver Utilities Test")));
+        waitFor(Conditions.element(By.tagName("h1")).text().satisfies(isEqualTo("Web Driver Utilities Test")));
     }
 
     @Test
