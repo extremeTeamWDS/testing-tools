@@ -121,7 +121,7 @@ public class Functions {
         };
     }
 
-    protected static Function<Object, Boolean> optionIsSelected(final String expectedSelectedOption) {
+    public static Function<Object, Boolean> optionIsSelected(final String expectedSelectedOption) {
         return new Function<Object, Boolean>() {
             private String actualSelectedOption;
 
