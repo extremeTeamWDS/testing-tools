@@ -151,9 +151,6 @@ public class MapperServlet {
 		}
 	}
 
-	
-	
-	
 	public void clearRequests(){
 		annotationMapperServlet.getRequests().clear();
 	}
@@ -249,5 +246,9 @@ public class MapperServlet {
 
 		ServletHolder holder = new ServletHolder(annotationMapperServlet);
 		server.getHandler().addServlet(holder, "/");
+	}
+	
+	public TestingServer getServer() {
+	    return server;
 	}
 }

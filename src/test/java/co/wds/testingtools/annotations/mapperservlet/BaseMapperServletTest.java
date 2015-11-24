@@ -30,6 +30,14 @@ public class BaseMapperServletTest {
 	public void teardownTest() {
 		unit.stop();
 	}
+    
+    protected int getPort() {
+        return unit.getServer().port;
+    }
+
+    protected String getBaseUrl() {
+        return "http://localhost:" + getPort();
+    }
 
 	protected void testServlet(String theUrl, int expectedHttpStatusCode) throws Exception {
 		URL url = new URL(theUrl);

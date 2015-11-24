@@ -29,11 +29,15 @@ public class Conditions {
             return this;
         }
 
+        protected Object applyCondition(Function<Object, Boolean> condition, Context context) {
+            return condition.apply(context);
+        }
+
         @Override
-        final public Object apply(WebDriver webDriver) {
+        public Object apply(WebDriver webDriver) {
             Context context = this.get(webDriver);
             for (Function<Object, Boolean> condition : conditions) {
-                Object result = condition.apply(context);
+                Object result = applyCondition(condition, context);
                 if (result == null || result == Boolean.FALSE) {
                     return null;
                 }
@@ -79,7 +83,7 @@ public class Conditions {
                 
                 @Override
                 public String toString() {
-                    return "Attribute '" + attributeName + "' of the Elemennt located " + WebElementCondition.this.selector + " " + super.toString() + ", it's latest value is '" + attributeValue + "'";
+                    return "Attribute '" + attributeName + "' of the Element located " + WebElementCondition.this.selector + " " + super.toString() + ", it's latest value is '" + attributeValue + "'";
                 }
             };
         }
@@ -96,7 +100,7 @@ public class Conditions {
                 
                 @Override
                 public String toString() {
-                    return "Text of of the Element located " + WebElementCondition.this.selector + " " + super.toString()
+                    return "Text of the Element located " + WebElementCondition.this.selector + " " + super.toString()
                         + "; it's latest value is '" + latestText + "'";
                 }
             };
