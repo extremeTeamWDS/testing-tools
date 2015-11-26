@@ -64,7 +64,7 @@ public class TestingServer {
         return -1;
     }
 
-    private static boolean isPortAvailable(final int port) {
+    public static boolean isPortAvailable(final int port) {
         ServerSocket ss = null;
         try {
             ss = new ServerSocket(port);
