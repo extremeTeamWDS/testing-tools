@@ -37,7 +37,7 @@ public class TestingServer {
 
 	private List<String> sessionStartRequests = new ArrayList<String>();
 
-    protected static int getFreePort() {
+    public static int getFreePort() {
         ServerSocket s = null;
         try {
             s = new ServerSocket(0);
@@ -55,7 +55,7 @@ public class TestingServer {
         }
     }
 
-    protected static int getFreePort(int minPort, int maxPort) {
+    public static int getFreePort(int minPort, int maxPort) {
         for (int i = minPort; i<= maxPort; i++) {
             if (isPortAvailable(i)) {
                 return i;
