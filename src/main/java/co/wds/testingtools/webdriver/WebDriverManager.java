@@ -1,5 +1,6 @@
 package co.wds.testingtools.webdriver;
 
+import static co.wds.testingtools.Property.getProperty;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 import java.io.BufferedReader;
@@ -30,6 +31,8 @@ import org.openqa.selenium.server.SeleniumServer;
 import com.google.common.base.Supplier;
 import com.google.common.base.Suppliers;
 
+import co.wds.testingtools.Property;
+
 /*
  * -Dip.address.lookup.url=$IP_LOOKUP_URL
  * -Dselenium.host=$SELENIUM_HOST
@@ -41,32 +44,6 @@ public class WebDriverManager {
         public final String id;
         Browser(String id) {
             this.id = id;
-        }
-    }
-
-    private static <T> T getProperty(String name, Class<T> valueClass, String defaultValue) {
-        String value = System.getProperty(name);
-        try {
-            if (value == null) {
-                String envName = name.replaceAll("\\W", "_");
-                value = System.getenv(envName);
-            }
-            if (value == null) {
-                value = defaultValue;
-            }
-            if (valueClass == Boolean.class) {
-                return (T) Boolean.valueOf(value);
-            } else if (value != null) {
-                if (valueClass == Integer.class) {
-                    return (T) Integer.valueOf(value);
-                }
-            }
-            return (T) value;
-        } catch (RuntimeException e) {
-            e.printStackTrace();
-            throw e;
-        } finally {
-            System.out.println("Property " + name + "=" + value);
         }
     }
 

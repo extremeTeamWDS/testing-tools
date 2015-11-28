@@ -1,5 +1,7 @@
 package co.wds.testingtools.annotations.mapperservlet;
 
+import static co.wds.testingtools.Property.getProperty;
+
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.util.ArrayList;
@@ -9,6 +11,8 @@ import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.openqa.selenium.io.IOUtils;
 
+import co.wds.testingtools.Property;
+
 public class TestingServer {
 
 	ServletContextHandler handler;
@@ -16,8 +20,8 @@ public class TestingServer {
 	
 	public TestingServer(int port) {
 	    if (port <= 0) {
-	        int minPort = Integer.parseInt(System.getProperty("testing.server.min.port", "-1"));
-	        int maxPort = Integer.parseInt(System.getProperty("testing.server.max.port", "-1"));
+	        int minPort = getProperty("testing.server.min.port", Integer.class, "-1");
+	        int maxPort = getProperty("testing.server.max.port", Integer.class, "-1");
 	        if (minPort > 0 && maxPort > 0) {
 	            this.port = getFreePort(minPort, maxPort);
 	        } else {
