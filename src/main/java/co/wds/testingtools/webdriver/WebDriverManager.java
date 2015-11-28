@@ -27,6 +27,9 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.server.RemoteControlConfiguration;
 import org.openqa.selenium.server.SeleniumServer;
 
+import com.google.common.base.Supplier;
+import com.google.common.base.Suppliers;
+
 /*
  * -Dip.address.lookup.url=$IP_LOOKUP_URL
  * -Dselenium.host=$SELENIUM_HOST
@@ -41,17 +44,38 @@ public class WebDriverManager {
         }
     }
 
-    public final static int APP_PORT = Integer.valueOf(System.getProperty("http.port", "3333"));
+    private static <T> T getProperty(String name, Class<T> valueClass, String defaultValue) {
+        String value = System.getProperty(name);
+        if (value == null) {
+            String envName = name.replaceAll("\\W", "_");
+            value = System.getenv(envName);
+        }
+        if (value == null) {
+            value = defaultValue;
+        }
+        if (value != null) {
+            if (valueClass == Boolean.class) {
+                return (T) Boolean.valueOf(value);
+            } else if (valueClass == Integer.class) {
+                return (T) Integer.valueOf(value);
+            }
+        }
+        return (T) value;
+    }
 
-    public static final Boolean WEBDRIVER_NATIVE_EVENTS = Boolean.valueOf(System.getProperty("webdriver.native.events"));
-    public final static String IP_ADDRESS_LOOKUP_URL = System.getProperty("ip.address.lookup.url");
-    public static final boolean LOGS_ENABLED = Boolean.valueOf(System.getProperty("logs.enabled"));
-    public static final String WEBDRIVER_BROWSER_VERSION = System.getProperty("webdriver.browser.version", "");
+    public final static int APP_PORT = getProperty("http.port", Integer.class, "3333");
+
+    public static final Boolean WEBDRIVER_NATIVE_EVENTS = getProperty("webdriver.native.events", Boolean.class, null);
+    public final static String IP_ADDRESS_LOOKUP_URL = getProperty("ip.address.lookup.url", String.class, null);
+    public static final boolean LOGS_ENABLED = getProperty("logs.enabled", Boolean.class, null);
+    public static final String WEBDRIVER_BROWSER_VERSION = getProperty("webdriver.browser.version", String.class, "");
     
     /* In order to debug, create custom profile, install required plugins (e.g. firebug) and pass it's name as -Dwebdrier.browser.profile=XXX */
-    private static final String WEBDRIVER_BROWSER = System.getProperty("webdriver.browser", Browser.FIREFOX.id); // chrome | firefox
-    private static final String WEBDRIVER_BROWSER_PROFILE = System.getProperty("webdriver.browser.profile");
-    private static final String SELENIUM_SERVER_URL = System.getProperty("selenium.host", "http://127.0.0.1:" + RemoteControlConfiguration.DEFAULT_PORT + "/wd/hub");
+    private static final String WEBDRIVER_BROWSER = getProperty("webdriver.browser", String.class, Browser.FIREFOX.id); // chrome | firefox
+    private static final String WEBDRIVER_BROWSER_PROFILE = getProperty("webdriver.browser.profile", String.class, null);
+    private static final String SELENIUM_SERVER_URL = getProperty("selenium.host", String.class,
+            "http://127.0.0.1:" + RemoteControlConfiguration.DEFAULT_PORT + "/wd/hub");
+
 	private static SeleniumServer seleniumServer;
 	private static WebDriver webdriver;
 
