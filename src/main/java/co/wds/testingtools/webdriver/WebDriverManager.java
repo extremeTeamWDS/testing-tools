@@ -4,6 +4,7 @@ import static co.wds.testingtools.Property.getProperty;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.BindException;
@@ -50,7 +51,8 @@ public class WebDriverManager {
     public final static int APP_PORT = getProperty("http.port", Integer.class, "3333");
 
     public static final Boolean WEBDRIVER_NATIVE_EVENTS = getProperty("webdriver.native.events", Boolean.class, null);
-    public final static String IP_ADDRESS_LOOKUP_URL = getProperty("ip.address.lookup.url", String.class, null);
+    public static final String IP_ADDRESS_LOOKUP_URL = getProperty("ip.address.lookup.url", String.class, null);
+    public static final File LOGS_BASE_DIR = getProperty("logs.base.dir", File.class, "./logs");
     public static final boolean LOGS_ENABLED = getProperty("logs.enabled", Boolean.class, null);
     public static final String WEBDRIVER_BROWSER_VERSION = getProperty("webdriver.browser.version", String.class, "");
     
@@ -59,7 +61,6 @@ public class WebDriverManager {
     private static final String WEBDRIVER_BROWSER_PROFILE = getProperty("webdriver.browser.profile", String.class, null);
     private static final String SELENIUM_SERVER_URL = getProperty("selenium.host", String.class,
             "http://127.0.0.1:" + RemoteControlConfiguration.DEFAULT_PORT + "/wd/hub");
-
 	private static SeleniumServer seleniumServer;
 	private static WebDriver webdriver;
 
@@ -171,6 +172,7 @@ public class WebDriverManager {
             + "\n\tWEBDRIVER_BROWSER_PROFILE=" + WEBDRIVER_BROWSER_PROFILE
             + "\n\tWEBDRIVER_NATIVE_EVENTS=" + WEBDRIVER_NATIVE_EVENTS
             + "\n\tIP_ADDRESS_LOOKUP_URL=" + IP_ADDRESS_LOOKUP_URL
+            + "\n\tLOGS_BASE_DIR=" + LOGS_BASE_DIR
             + "\n\tLOGS_ENABLED=" + LOGS_ENABLED
             + "\n\tSELENIUM_SERVER_URL=" + SELENIUM_SERVER_URL
             + "\n"

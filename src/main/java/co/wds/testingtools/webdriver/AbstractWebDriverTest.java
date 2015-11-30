@@ -1,6 +1,7 @@
 package co.wds.testingtools.webdriver;
 
 import static co.wds.testingtools.webdriver.Conditions.javascript;
+import static co.wds.testingtools.webdriver.WebDriverManager.LOGS_BASE_DIR;
 import static java.lang.String.format;
 import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOfElementLocated;
 
@@ -40,8 +41,9 @@ public abstract class AbstractWebDriverTest {
 	
 	private static Logger logger = LoggerFactory.getLogger(AbstractWebDriverTest.class);
     
-	public static final File SCREENSHOTS_DIR_PATH = new File("./logs/screenshots/");
-	private static final File WEBDRIVER_LOGS_DIR_PATH = new File("./logs/webdriver_logs/");
+	public static final File SCREENSHOTS_DIR_PATH = new File(LOGS_BASE_DIR, "screenshots/");
+	private static final File WEBDRIVER_LOGS_DIR_PATH = new File(LOGS_BASE_DIR, "webdriver_logs/");
+
 	protected WebDriver webdriver;
 	protected static String baseUrl;
 

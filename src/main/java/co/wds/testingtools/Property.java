@@ -1,5 +1,7 @@
 package co.wds.testingtools;
 
+import java.io.File;
+
 public class Property {
     public static <T> T getProperty(String name, Class<T> valueClass, String defaultValue) {
         String value = System.getProperty(name);
@@ -16,6 +18,8 @@ public class Property {
             } else if (value != null) {
                 if (valueClass == Integer.class) {
                     return (T) Integer.valueOf(value);
+                } else if (valueClass == File.class) {
+                    return (T) new File(value);
                 }
             }
             return (T) value;
