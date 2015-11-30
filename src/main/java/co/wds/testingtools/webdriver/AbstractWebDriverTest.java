@@ -51,11 +51,11 @@ public abstract class AbstractWebDriverTest {
 
 	protected static final int TIMEOUT = Integer.valueOf(System.getProperty("webdriver.wait.timeout", "12")); // seconds
 
-    @Rule
-    public ConditionalIgnoreRule rule = new ConditionalIgnoreRule(); // TODO merge it with FunctionalTestRunningRule?
+    @Rule // rule name should be unique otherwise parent rule with same name will be skipped (just tried with JUnit 4.12)
+    public ConditionalIgnoreRule abstractWebDriverTestConditionalIgnoreRule = new ConditionalIgnoreRule(); // TODO merge it with FunctionalTestRunningRule?
 
-    @Rule
-    public AbstractTestWatcher functionalRule = new AbstractTestWatcher() {
+    @Rule // rule name should be unique otherwise parent rule with same name will be skipped (just tried with JUnit 4.12)
+    public AbstractTestWatcher abstractWebDriverTestAbstractTestWatcher = new AbstractTestWatcher() {
         @Override
         public void failed(Throwable t, Description description) {
             super.failed(t, description);
