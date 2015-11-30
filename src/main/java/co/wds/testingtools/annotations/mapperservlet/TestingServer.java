@@ -14,19 +14,15 @@ import org.openqa.selenium.io.IOUtils;
 import co.wds.testingtools.Property;
 
 public class TestingServer {
+    public final static int SERVER_MIN_PORT = getProperty("testing.server.min.port", Integer.class, "-1");
+    public final static int SERVER_MAX_PORT = getProperty("testing.server.max.port", Integer.class, "-1");
 
 	ServletContextHandler handler;
     public final int port;
 	
 	public TestingServer(int port) {
 	    if (port <= 0) {
-	        int minPort = getProperty("testing.server.min.port", Integer.class, "-1");
-	        int maxPort = getProperty("testing.server.max.port", Integer.class, "-1");
-	        if (minPort > 0 && maxPort > 0) {
-	            this.port = getFreePort(minPort, maxPort);
-	        } else {
-	            this.port = getFreePort();
-	        }
+	        this.port = getFreePort(SERVER_MIN_PORT, SERVER_MAX_PORT);
 	    } else {
 	        this.port = port;
 	    }
@@ -60,12 +56,16 @@ public class TestingServer {
     }
 
     public static int getFreePort(int minPort, int maxPort) {
-        for (int i = minPort; i<= maxPort; i++) {
-            if (isPortAvailable(i)) {
-                return i;
+        if (SERVER_MIN_PORT > 0 && SERVER_MAX_PORT > 0) {
+            for (int i = minPort; i<= maxPort; i++) {
+                if (isPortAvailable(i)) {
+                    return i;
+                }
             }
+            return -1;
+        } else {
+            return getFreePort();
         }
-        return -1;
     }
 
     public static boolean isPortAvailable(final int port) {
