@@ -9,9 +9,6 @@ import java.util.List;
 
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
-import org.openqa.selenium.io.IOUtils;
-
-import co.wds.testingtools.Property;
 
 public class TestingServer {
     public final static int SERVER_MIN_PORT = getProperty("testing.server.min.port", Integer.class, "-1");

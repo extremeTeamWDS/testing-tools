@@ -1,6 +1,9 @@
 package co.wds.testingtools.webdriver;
 
 import static co.wds.testingtools.Property.getProperty;
+import static co.wds.testingtools.annotations.mapperservlet.TestingServer.SERVER_MAX_PORT;
+import static co.wds.testingtools.annotations.mapperservlet.TestingServer.SERVER_MIN_PORT;
+import static co.wds.testingtools.annotations.mapperservlet.TestingServer.getFreePort;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 import java.io.BufferedReader;
@@ -11,7 +14,6 @@ import java.net.BindException;
 import java.net.HttpURLConnection;
 import java.net.ServerSocket;
 import java.net.URL;
-import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 
 import org.apache.commons.lang3.StringUtils;
@@ -29,11 +31,6 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.server.RemoteControlConfiguration;
 import org.openqa.selenium.server.SeleniumServer;
 
-import com.google.common.base.Supplier;
-import com.google.common.base.Suppliers;
-
-import co.wds.testingtools.Property;
-
 /*
  * -Dip.address.lookup.url=$IP_LOOKUP_URL
  * -Dselenium.host=$SELENIUM_HOST
@@ -48,7 +45,8 @@ public class WebDriverManager {
         }
     }
 
-    public final static int APP_PORT = getProperty("http.port", Integer.class, "3333");
+    public final static int DEFAULT_APP_PORT = getFreePort(SERVER_MIN_PORT, SERVER_MAX_PORT);
+    public final static int APP_PORT = getProperty("http.port", Integer.class, String.valueOf(DEFAULT_APP_PORT));
 
     public static final Boolean WEBDRIVER_NATIVE_EVENTS = getProperty("webdriver.native.events", Boolean.class, null);
     public static final String IP_ADDRESS_LOOKUP_URL = getProperty("ip.address.lookup.url", String.class, null);
