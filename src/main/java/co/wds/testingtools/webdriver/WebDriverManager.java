@@ -46,6 +46,8 @@ public class WebDriverManager {
     }
 
     public final static int DEFAULT_APP_PORT = getFreePort(SERVER_MIN_PORT, SERVER_MAX_PORT);
+    
+    @Deprecated // use TestingServer.getFreePort(TestingServer.SERVER_MIN_PORT, TestingServer.SERVER_MAX_PORT)
     public final static int APP_PORT = getProperty("http.port", Integer.class, String.valueOf(DEFAULT_APP_PORT));
 
     public static final Boolean WEBDRIVER_NATIVE_EVENTS = getProperty("webdriver.native.events", Boolean.class, null);
@@ -110,12 +112,17 @@ public class WebDriverManager {
         return externalAddress;
     }
 
+    @Deprecated // use getBaseUrl(int port)
     public static String getBaseUrl() {
+        return getBaseUrl(APP_PORT);
+    }
+
+    public static String getBaseUrl(int port) {
         if (baseUrl == null) {
             StringBuilder builder = new StringBuilder("http://");
             builder.append(getExternalAddress());
             builder.append(":");
-            builder.append(APP_PORT);
+            builder.append(port);
             baseUrl = builder.toString();
         }
         return baseUrl;
@@ -164,7 +171,6 @@ public class WebDriverManager {
 
 	private static void initWebDriver(String locale) throws IOException {
 	    System.out.println("initWebDriver() with settigns:"
-            + "\n\tAPP_PORT=" + APP_PORT
             + "\n\tWEBDRIVER_BROWSER=" + WEBDRIVER_BROWSER
             + "\n\tWEBDRIVER_BROWSER_VERSION=" + WEBDRIVER_BROWSER_VERSION
             + "\n\tWEBDRIVER_BROWSER_PROFILE=" + WEBDRIVER_BROWSER_PROFILE

@@ -53,7 +53,7 @@ public class TestingServer {
     }
 
     public static int getFreePort(int minPort, int maxPort) {
-        if (SERVER_MIN_PORT > 0 && SERVER_MAX_PORT > 0) {
+        if (minPort > 0 && maxPort > 0) {
             for (int i = minPort; i<= maxPort; i++) {
                 if (isPortAvailable(i)) {
                     return i;

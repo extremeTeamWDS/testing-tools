@@ -1,7 +1,11 @@
 package co.wds.testingtools.webdriver;
 
+import static co.wds.testingtools.annotations.mapperservlet.TestingServer.SERVER_MAX_PORT;
+import static co.wds.testingtools.annotations.mapperservlet.TestingServer.SERVER_MIN_PORT;
+import static co.wds.testingtools.annotations.mapperservlet.TestingServer.getFreePort;
 import static co.wds.testingtools.webdriver.Conditions.javascript;
 import static co.wds.testingtools.webdriver.WebDriverManager.LOGS_BASE_DIR;
+import static co.wds.testingtools.webdriver.WebDriverManager.getBaseUrl;
 import static java.lang.String.format;
 import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOfElementLocated;
 
@@ -34,6 +38,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import co.wds.testingtools.annotations.mapperservlet.TestingServer;
 import co.wds.testingtools.rules.AbstractTestWatcher;
 import co.wds.testingtools.rules.ConditionalIgnoreRule;
 
@@ -45,6 +50,7 @@ public abstract class AbstractWebDriverTest {
 	private static final File WEBDRIVER_LOGS_DIR_PATH = new File(LOGS_BASE_DIR, "webdriver_logs/");
 
 	protected WebDriver webdriver;
+	private int appPort;
 	protected static String baseUrl;
 
 	protected static WebDriverManager lifecycle = new WebDriverManager();
@@ -73,8 +79,14 @@ public abstract class AbstractWebDriverTest {
 
 	@Before
 	public void beforeEachTest() throws Exception {
-	    baseUrl = WebDriverManager.getBaseUrl();
+	    appPort = getFreePort(SERVER_MIN_PORT, SERVER_MAX_PORT);
+        System.out.println("\n\tappPort=" + appPort);
+	    baseUrl = getBaseUrl(appPort);
 		webdriver = lifecycle.getWebdriverForNewTest();
+	}
+
+	protected int getAppPort() {
+	    return appPort;
 	}
 
 	@AfterClass
