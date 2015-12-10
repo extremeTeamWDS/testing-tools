@@ -51,7 +51,7 @@ public abstract class AbstractWebDriverTest {
 
 	protected WebDriver webdriver;
 	private int appPort;
-	protected static String baseUrl;
+	protected String baseUrl;
 
 	protected static WebDriverManager lifecycle = new WebDriverManager();
 
