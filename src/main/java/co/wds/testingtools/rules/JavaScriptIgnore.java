@@ -28,7 +28,9 @@ public class JavaScriptIgnore implements IgnoreCondition {
             ScriptEngineManager factory = new ScriptEngineManager();
             ScriptEngine engine = factory.getEngineByName("JavaScript");
             engine.put("description", description);
-            return (Boolean) engine.eval(script);
+            Boolean result = (Boolean) engine.eval(script);
+            System.out.println("isSatisfied(" + script + ") -> " + result);
+            return result;
         }
         return false;
     }
