@@ -28,6 +28,19 @@ public class ConditionalIgnore extends TestWatcher {
         String value();
     }
 
+    private ScriptEngine getEngine() throws ScriptException {
+        ScriptEngineManager factory = new ScriptEngineManager();
+        ScriptEngine engine = factory.getEngineByName("JavaScript");
+        if (engine.getClass().getSimpleName().equals("NashornScriptEngine")) {
+            try {
+                engine.eval("load('nashorn:mozilla_compat.js');");
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+        }
+        return engine;
+    }
+
     private boolean isSatisfied(Description description, String script) throws ScriptException {
         ScriptEngine engine = getEngine();
         engine.put("description", description);
@@ -60,15 +73,6 @@ public class ConditionalIgnore extends TestWatcher {
 
     public static String getTestValue() {
         return "test";
-    }
-
-    private ScriptEngine getEngine() throws ScriptException {
-        ScriptEngineManager factory = new ScriptEngineManager();
-        ScriptEngine engine = factory.getEngineByName("JavaScript");
-        if (engine instanceof jdk.nashorn.api.scripting.NashornScriptEngine) {
-            engine.eval("try {load('nashorn:mozilla_compat.js');} catch (e) {}");
-        }
-        return engine;
     }
 
     @Override
