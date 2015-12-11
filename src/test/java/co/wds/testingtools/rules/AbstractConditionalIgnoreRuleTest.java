@@ -1,7 +1,5 @@
 package co.wds.testingtools.rules;
 
-import co.wds.testingtools.rules.ConditionalIgnoreRule.ConditionalIgnore;
-
-@ConditionalIgnore(condition = JavaScriptIgnore.class)
+@ConditionalIgnore.Expression("description.getMethodName().contains('IgnoreBySuperclass')")
 public class AbstractConditionalIgnoreRuleTest {
 }
