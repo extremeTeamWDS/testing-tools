@@ -29,7 +29,7 @@ public class ConditionalIgnore extends TestWatcher {
     }
 
     private ScriptEngine getEngine() throws ScriptException {
-        ScriptEngineManager factory = new ScriptEngineManager();
+        ScriptEngineManager factory = new ScriptEngineManager(test.getClass().getClassLoader());
         ScriptEngine engine = factory.getEngineByName("JavaScript");
         if (engine.getClass().getSimpleName().equals("NashornScriptEngine")) {
             try {
@@ -45,9 +45,9 @@ public class ConditionalIgnore extends TestWatcher {
         ScriptEngine engine = getEngine();
         engine.put("description", description);
         engine.put("test", test);
-        Boolean result = (Boolean) engine.eval(script);
+        Object result = engine.eval(script);
         System.out.println("isSatisfied(" + script + ") -> " + result);
-        return result;
+        return result instanceof Boolean && ((Boolean) result).booleanValue();
     }
 
     void checkIgnored(Expression expression, Description description) throws Exception {

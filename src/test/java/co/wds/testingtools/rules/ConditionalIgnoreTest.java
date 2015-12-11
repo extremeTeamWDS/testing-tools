@@ -44,6 +44,12 @@ public class ConditionalIgnoreTest extends AbstractConditionalIgnoreRuleTest {
     }
 
     @Test
+    @ConditionalIgnore.Expression("java.lang.System.getProperty('ignore.unstable.tests') === null") // in real test you might want to compare with 'true'
+    public void testIgnoreBySystemProperty() {
+        fail();
+    }
+
+    @Test
     @ConditionalIgnore.Expression("true")
     public void testIgnored() {
         fail();
@@ -68,9 +74,8 @@ public class ConditionalIgnoreTest extends AbstractConditionalIgnoreRuleTest {
     }
 
     @Test
-    @org.junit.Ignore // TODO fix it
-    @ConditionalIgnore.Expression("importPackage('co.wds.testingtools.rules');"
-            + "ConditionalIgnoreTest.shouldIgnore(description.getMethodName())")
+    @org.junit.Ignore // TODO fix it (for both java 7 & 8)
+    @ConditionalIgnore.Expression("co.wds.testingtools.rules.ConditionalIgnoreTest.shouldIgnore(description.getMethodName())")
     public void testIgnoredByTheClassStaticMethod() {
         fail();
     }
