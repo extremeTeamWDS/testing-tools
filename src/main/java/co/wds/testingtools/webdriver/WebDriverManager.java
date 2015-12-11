@@ -66,8 +66,6 @@ public class WebDriverManager {
 
 	private static boolean initialized;
 
-    private static String baseUrl;
-
     private static String externalAddress;
 
     public static boolean isWebDriverLocal() {
@@ -118,14 +116,11 @@ public class WebDriverManager {
     }
 
     public static String getBaseUrl(int port) {
-        if (baseUrl == null) {
-            StringBuilder builder = new StringBuilder("http://");
-            builder.append(getExternalAddress());
-            builder.append(":");
-            builder.append(port);
-            baseUrl = builder.toString();
-        }
-        return baseUrl;
+        StringBuilder builder = new StringBuilder("http://");
+        builder.append(getExternalAddress());
+        builder.append(":");
+        builder.append(port);
+        return builder.toString();
     }
     
 	private static void init() throws Exception {
