@@ -17,7 +17,6 @@ import static co.wds.testingtools.webdriver.Functions.Operator.GREATER_THAN;
 import static co.wds.testingtools.webdriver.Functions.Operator.LESS_THAN;
 import static co.wds.testingtools.webdriver.WebDriverManager.getExternalAddress;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -34,7 +33,6 @@ import co.wds.testingtools.annotations.MapperServlet.RespondTo;
 import co.wds.testingtools.annotations.MapperServlet.ResponseData;
 import co.wds.testingtools.annotations.MapperServlet.TestServlet;
 import co.wds.testingtools.webdriver.Conditions.ContextCondition;
-import co.wds.testingtools.webdriver.Functions.Operator;
 
 @TestServlet(port=ANY_FREE_PORT)
 @RespondTo({

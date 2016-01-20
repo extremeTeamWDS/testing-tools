@@ -62,8 +62,22 @@ public class RandomAnnotation {
 		} else if (classToRandomise.equals(String.class)) {
 			return (S) String.format("%h",  randomiser.nextLong());
 		} else {
-			System.out.println("unrecognised class "+ classToRandomise);
-			return null;
+			throw new IllegalArgumentException("Unsupported Class " + classToRandomise);
 		}
 	}
+	
+	@SuppressWarnings("unchecked")
+	public static <S> S randomise(Class<S> classToRandomise, S lower, S upper) {
+		if (classToRandomise.equals(Integer.class) || classToRandomise.equals(int.class)) {
+			if ((Integer)lower > (Integer)upper) {
+				throw new IllegalArgumentException("Lower bound cannot be greater than upper bound");
+			}
+			int bound = (Integer)upper - (Integer)lower;
+			Integer i = randomiser.nextInt(bound) + (Integer)lower;
+			return (S) i;
+		} else {
+			throw new IllegalArgumentException("Unsupported Class " + classToRandomise);
+		}
+	}
+
 }

@@ -5,7 +5,9 @@ import static co.wds.testingtools.annotations.RandomAnnotation.randomiseFields;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.CoreMatchers.nullValue;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.Matchers.greaterThanOrEqualTo;
+import static org.hamcrest.Matchers.lessThanOrEqualTo;
+import static org.junit.Assert.*;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -109,5 +111,27 @@ public class RandomAnnotationTest {
 		randomise(float.class);
 		randomise(long.class);
 		randomise(byte.class);
+	}
+	
+	@Test
+	public void shouldRandomiseIntegerWithinRange() throws Exception {
+		Integer lower = 10;
+		Integer upper = 20;
+		Integer i = randomise(Integer.class, lower, upper);
+		
+		assertThat(i, is(greaterThanOrEqualTo(lower)));
+		assertThat(i, is(lessThanOrEqualTo(upper)));
+	}
+	
+	@Test
+	public void shouldComplainIfLowerBoundIsMoreThanUpperBound() throws Exception {
+		IllegalArgumentException caught = null;
+		try {
+			randomise(Integer.class, 10, 9);
+		} catch (IllegalArgumentException e) {
+			caught = e;
+		}
+		
+		assertThat(caught, is(not(nullValue())));
 	}
 }
