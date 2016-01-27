@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+caption {
+    white-space: nowrap;
+}
+table, table td {
+	border-spacing: 0;
+}
+table td {
+	padding: 5px 10px;
+	border: 1px solid silver;
+	border-collapse: collapse;
+}
+</style>
+</head>
+<body>
+<table id="params">
+<caption>You passed params:</caption>
+{{#params}}
+	<tr>
+		<td class="key">{{key}}</td>
+		<td class="value">{{value}}</td>
+	</tr>
+{{/params}}
+</table>
+</body>
+</html>
