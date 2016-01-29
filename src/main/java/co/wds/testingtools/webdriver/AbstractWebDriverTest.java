@@ -42,11 +42,10 @@ import co.wds.testingtools.annotations.mapperservlet.TestingServer;
 import co.wds.testingtools.rules.AbstractTestWatcher;
 import co.wds.testingtools.rules.ConditionalIgnore;
 
-public abstract class AbstractWebDriverTest {
+public abstract class AbstractWebDriverTest extends AbstractPage {
 	
 	private static Logger logger = LoggerFactory.getLogger(AbstractWebDriverTest.class);
     
-	public static final File SCREENSHOTS_DIR_PATH = new File(LOGS_BASE_DIR, "screenshots/");
 	private static final File WEBDRIVER_LOGS_DIR_PATH = new File(LOGS_BASE_DIR, "webdriver_logs/");
 
 	protected WebDriver webdriver;
@@ -54,8 +53,6 @@ public abstract class AbstractWebDriverTest {
 	protected String baseUrl;
 
 	protected static WebDriverManager lifecycle = new WebDriverManager();
-
-	protected static final int TIMEOUT = Integer.valueOf(System.getProperty("webdriver.wait.timeout", "12")); // seconds
 
     @Rule // rule name should be unique otherwise parent rule with same name will be skipped (just tried with JUnit 4.12)
     public ConditionalIgnore abstractWebDriverTestConditionalIgnoreRule = new ConditionalIgnore(this);
@@ -104,67 +101,6 @@ public abstract class AbstractWebDriverTest {
         }
     }
 
-	protected <T> T waitFor(ExpectedCondition<T> condition) {
-	    return waitFor(condition, TIMEOUT, TimeUnit.SECONDS);
-	}
-
-    protected <T> T waitFor(ExpectedCondition<T> condition, int timeout, TimeUnit unit) {
-        return new WebDriverWait(webdriver, unit.toSeconds(timeout)).until(condition);
-    }
-
-    protected void select(By selector, String option) {
-        WebElement selectElement = waitFor(visibilityOfElementLocated(selector));
-        new Select(selectElement).selectByValue(option);
-    }
-
-    protected void typeText(By inputSelector, String text) {
-        WebElement inputElement = waitFor(visibilityOfElementLocated(inputSelector));
-        inputElement.clear();
-        inputElement.sendKeys(text);
-    }
-
-    protected void click(final By byLocator) {
-        waitFor(new ExpectedCondition<Boolean>() {
-            @Override
-            public Boolean apply(WebDriver driver) {
-                WebElement element = driver.findElement(byLocator);
-                if (element.isDisplayed()) {
-                    try {
-                        element.click();
-                        return true;
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-                return false;
-            }
-
-            @Override
-            public String toString() {
-                return "Element located " + byLocator + " clicked";
-            }
-        });
-    }
-
-	protected void takeScreenshot(String screenshotName) {
-		WebDriver driver = new Augmenter().augment(webdriver);
-		if (driver instanceof TakesScreenshot) {
-			File tempFile = null;
-			SCREENSHOTS_DIR_PATH.mkdirs();
-			File destFile = new File(SCREENSHOTS_DIR_PATH, screenshotName + ".png");
-			try {
-				tempFile = ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
-				FileUtils.copyFile(tempFile, destFile);
-			} catch (IOException e) {
-				String message = format("Unable to copy file %s to %s", tempFile != null ? tempFile.getAbsolutePath() : null,
-						destFile.getAbsolutePath());
-                logger.error(message, e);
-			} catch (Exception e) {
-				logger.error("Cannot take screenshot", e);
-			}
-		}
-	}
-	
 	protected void dumpBrowserLogs(String testName) {
 		try {
 			Logs logs = webdriver.manage().logs();
@@ -189,8 +125,9 @@ public abstract class AbstractWebDriverTest {
 			logger.error(format("Error happened during saving to %s", file), e);
 		}
 	}
-
-	protected <Result> Result runJs(String script, Object ... args) {
-	    return (Result) ((JavascriptExecutor) webdriver).executeScript(script, args);
+	
+	@Override
+	public WebDriver getWebDriver() {
+	    return webdriver;
 	}
 }
