@@ -7,6 +7,7 @@ import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.Matchers.greaterThanOrEqualTo;
 import static org.hamcrest.Matchers.lessThanOrEqualTo;
+import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.Assert.*;
 
 import java.util.HashSet;
@@ -18,6 +19,18 @@ import org.junit.Test;
 import co.wds.testingtools.annotations.RandomAnnotation.Randomise;
 
 public class RandomAnnotationTest {
+
+	enum TestEnum1 {
+		TEST_1,
+		TEST_2,
+		TEST_3,
+		TEST_4
+	}
+
+	enum AnotherTestEnum {
+		ANOTHER_TEST_1
+	}
+
 	@Randomise String randomString_1;
 	@Randomise String randomString_2;
 	@Randomise Long randomLong;
@@ -32,6 +45,8 @@ public class RandomAnnotationTest {
 	@Randomise float randomFloatPrimitive;
 	@Randomise double randomDoublePrimitive;
 	@Randomise byte randomBytePrimitive;
+	@Randomise TestEnum1 randomTestEnum;
+	@Randomise AnotherTestEnum randomAnotherTestEnum;
 	
 	@Before
 	public void setup() throws Exception {
@@ -102,7 +117,18 @@ public class RandomAnnotationTest {
 		assertThat(b, is(not(nullValue())));
 		assertThat(randomByte, is(not(nullValue())));
 	}
-	
+
+	@Test
+	public void shouldRandomiseEnums() throws Exception {
+		TestEnum1 enumObj = randomise( TestEnum1.class );
+		assertThat( enumObj, is( notNullValue() ) );
+		assertThat( randomTestEnum, is( notNullValue() ) );
+
+		AnotherTestEnum anotherEnumObj = randomise( AnotherTestEnum.class );
+		assertThat( anotherEnumObj, is( notNullValue() ) );
+		assertThat( randomAnotherTestEnum, is( notNullValue() ) );
+	}
+
 	@Test
 	public void randomisePrimitivesShouldNotThrowAnException() throws Exception {
 		randomise(int.class);

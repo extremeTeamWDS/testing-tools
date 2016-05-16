@@ -60,7 +60,10 @@ public class RandomAnnotation {
 		} else if (classToRandomise.equals(Byte.class) || classToRandomise.equals(byte.class)) {
 			return (S) (Byte)((Integer)randomiser.nextInt(Byte.MAX_VALUE)).byteValue();
 		} else if (classToRandomise.equals(String.class)) {
-			return (S) String.format("%h",  randomiser.nextLong());
+			return (S) String.format("%h", randomiser.nextLong());
+		} else if (classToRandomise.isEnum() ) {
+			S[] enumConstants = classToRandomise.getEnumConstants();
+			return enumConstants[randomiser.nextInt( enumConstants.length )];
 		} else {
 			throw new IllegalArgumentException("Unsupported Class " + classToRandomise);
 		}
