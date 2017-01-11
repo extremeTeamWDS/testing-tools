@@ -7,15 +7,12 @@ import static co.wds.testingtools.webdriver.Conditions.javascript;
 import static co.wds.testingtools.webdriver.WebDriverManager.LOGS_BASE_DIR;
 import static co.wds.testingtools.webdriver.WebDriverManager.getBaseUrl;
 import static java.lang.String.format;
-import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOfElementLocated;
 
 import java.io.File;
-import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Collection;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.io.FileUtils;
 import org.junit.AfterClass;
@@ -23,22 +20,13 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.runner.Description;
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.OutputType;
-import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.logging.LogEntry;
 import org.openqa.selenium.logging.Logs;
-import org.openqa.selenium.remote.Augmenter;
-import org.openqa.selenium.support.ui.ExpectedCondition;
-import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import co.wds.testingtools.annotations.mapperservlet.TestingServer;
 import co.wds.testingtools.rules.AbstractTestWatcher;
 import co.wds.testingtools.rules.ConditionalIgnore;
 
