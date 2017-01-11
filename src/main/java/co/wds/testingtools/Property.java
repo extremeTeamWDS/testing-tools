@@ -3,7 +3,8 @@ package co.wds.testingtools;
 import java.io.File;
 
 public class Property {
-    public static <T> T getProperty(String name, Class<T> valueClass, String defaultValue) {
+    @SuppressWarnings("unchecked")
+	public static <T> T getProperty(String name, Class<T> valueClass, String defaultValue) {
         String value = System.getProperty(name);
         try {
             if (value == null) {

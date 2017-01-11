@@ -90,7 +90,8 @@ abstract public class AbstractPage {
         }
     }
 
-    public <Result> Result runJs(String script, Object ... args) {
+    @SuppressWarnings("unchecked")
+	public <Result> Result runJs(String script, Object ... args) {
         return (Result) ((JavascriptExecutor) getWebDriver()).executeScript(script, args);
     }
 }

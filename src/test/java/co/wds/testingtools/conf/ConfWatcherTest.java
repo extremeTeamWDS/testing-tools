@@ -11,9 +11,6 @@ import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 
-import co.wds.testingtools.conf.ConfWatcher;
-import co.wds.testingtools.conf.Setting;
-import co.wds.testingtools.conf.With;
 import co.wds.testingtools.conf.handler.SettingMapHandler;
 import co.wds.testingtools.conf.handler.SystemPropertyHandler;
 
@@ -29,7 +26,8 @@ public class ConfWatcherTest {
     public ConfWatcher confWatcher = new ConfWatcher();
     private static Map<String, Object> initialSystemProperties;
 
-    @BeforeClass
+	@BeforeClass
+	@SuppressWarnings({ "rawtypes", "unchecked" })
     public static void initOnce() {
         initialSystemProperties = new HashMap(System.getProperties());
         System.setProperty("system-setting-key-1", "system-setting-value-1");
@@ -37,6 +35,7 @@ public class ConfWatcherTest {
     }
 
     @AfterClass
+    @SuppressWarnings({ "rawtypes", "unchecked" })
     public static void clearOnce() {
         System.clearProperty("system-setting-key-1");
         System.clearProperty("system-setting-key-2");
@@ -56,6 +55,8 @@ public class ConfWatcherTest {
         @Setting(key = "system-setting-key-3", value = "system-setting-value-3.1", forThe = SystemPropertyHandler.class),
         @Setting(key = "system-setting-key-4", value = "system-setting-value-4", forThe = SystemPropertyHandler.class),
     })
+    
+    @SuppressWarnings({ "rawtypes", "unchecked" })
     public void testConfHandler() throws Exception {
         SettingMapHandler handler = (SettingMapHandler) confWatcher.handlers.get(SettingMapHandler.class);
         Map<String, Object> expectedSettings = new HashMap<String, Object>();

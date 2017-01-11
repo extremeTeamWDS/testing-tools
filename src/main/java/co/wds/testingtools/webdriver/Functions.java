@@ -1,6 +1,7 @@
 package co.wds.testingtools.webdriver;
 
-import org.apache.commons.lang3.ObjectUtils;
+import java.util.Objects;
+
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
@@ -25,7 +26,8 @@ public class Functions {
 
     public static <T extends Comparable<T>> Function<Object, Boolean> comparison(final Operator operator, final T baseValue) {
         return new Function<Object, Boolean>() {
-            public Boolean apply(Object actualValue) {
+            @SuppressWarnings("unchecked")
+			public Boolean apply(Object actualValue) {
                 return operator.apply((T) actualValue, baseValue);
             }
 
@@ -40,7 +42,7 @@ public class Functions {
         return new Function<Object, Boolean>() {
             @Override
             public Boolean apply(Object actualValue) {
-                return ObjectUtils.equals(expectedValue, actualValue);
+                return Objects.equals(expectedValue, actualValue);
             }
 
             @Override

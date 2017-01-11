@@ -19,9 +19,9 @@ import static co.wds.testingtools.webdriver.WebDriverManager.getExternalAddress;
 import static org.junit.Assert.assertEquals;
 
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
-import org.apache.commons.lang3.ObjectUtils;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -61,7 +61,7 @@ public class WebDriverTest extends AbstractWebDriverTest {
         
         @Override
         public int hashCode() {
-            return ObjectUtils.hashCode(value1) + ObjectUtils.hashCode(value2);
+            return Objects.hashCode(value1) + Objects.hashCode(value2);
         }
         
         @Override
@@ -73,8 +73,8 @@ public class WebDriverTest extends AbstractWebDriverTest {
                 return false;
             }
             Pair<?> that = (Pair<?>) obj;
-            return ObjectUtils.equals(this.value1, that.value1) && ObjectUtils.equals(this.value2, that.value2)
-                    || ObjectUtils.equals(this.value2, that.value1) && ObjectUtils.equals(this.value1, that.value2);
+            return Objects.equals(this.value1, that.value1) && Objects.equals(this.value2, that.value2)
+                    || Objects.equals(this.value2, that.value1) && Objects.equals(this.value1, that.value2);
         }
     }
     
