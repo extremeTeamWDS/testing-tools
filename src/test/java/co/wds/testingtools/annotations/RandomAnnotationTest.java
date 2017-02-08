@@ -31,22 +31,22 @@ public class RandomAnnotationTest {
 		ANOTHER_TEST_1
 	}
 
-	@Randomise String randomString_1;
-	@Randomise String randomString_2;
-	@Randomise Long randomLong;
-	@Randomise Integer randomInt;
-	@Randomise Boolean randomBool;
-	@Randomise Double randomDouble;
-	@Randomise Float randomFloat;
-	@Randomise Byte randomByte;
-	@Randomise boolean randomBooleanPrimitive;
-	@Randomise long randomLongPrimitive;
-	@Randomise int randomIntPrimitive;
-	@Randomise float randomFloatPrimitive;
-	@Randomise double randomDoublePrimitive;
-	@Randomise byte randomBytePrimitive;
-	@Randomise TestEnum1 randomTestEnum;
-	@Randomise AnotherTestEnum randomAnotherTestEnum;
+	@Randomise private String randomString_1;
+	@Randomise private String randomString_2;
+	@Randomise private Long randomLong;
+	@Randomise private Integer randomInt;
+	@Randomise private Boolean randomBool;
+	@Randomise private Double randomDouble;
+	@Randomise private Float randomFloat;
+	@Randomise private Byte randomByte;
+	@Randomise private boolean randomBooleanPrimitive;
+	@Randomise private long randomLongPrimitive;
+	@Randomise private int randomIntPrimitive;
+	@Randomise private float randomFloatPrimitive;
+	@Randomise private double randomDoublePrimitive;
+	@Randomise private byte randomBytePrimitive;
+	@Randomise private TestEnum1 randomTestEnum;
+	@Randomise private AnotherTestEnum randomAnotherTestEnum;
 	
 	@Before
 	public void setup() throws Exception {

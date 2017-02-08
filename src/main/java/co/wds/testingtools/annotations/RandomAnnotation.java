@@ -41,6 +41,7 @@ public class RandomAnnotation {
 
 	private static void randomise(Object testClass, Set<Field> fieldsToBeRandomised) throws IllegalArgumentException, IllegalAccessException {
 		for (Field field: fieldsToBeRandomised) {
+			field.setAccessible( true );
 			field.set(testClass, randomise(field.getType()));
 		}
 	}
